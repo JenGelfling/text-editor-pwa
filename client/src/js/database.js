@@ -26,10 +26,10 @@ export const putDb = async (content) => {
   const noteTx = noteDb.transaction(DB_NAME, "readwrite");
 
   // Get the object store
-  const noteStore = noteTx.objectStore(DB_NAME);
+  const store = noteTx.objectStore(DB_NAME);
 
   // Put the content into the object store
-  const request = noteStore.put({ id: 1, value: content });
+  const request = store.put({ id: 1, value: content });
   const result = await request;
   console.log("🚀 - data saved to the database", result.value);
 };
@@ -40,7 +40,7 @@ export const putDb = async (content) => {
 export const getDb = async () => {
   const noteDb = await openDB(DB_NAME, 1);
   const noteTx = noteDb.transaction(DB_NAME, "readonly");
-  const noteStore = noteTx.objectStore(DB_NAME);
+  const store = noteTx.objectStore(DB_NAME);
 
   const request = store.get(1);
   const result = await request;
