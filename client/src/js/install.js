@@ -1,13 +1,24 @@
 const btnInstall = document.getElementById("buttonInstall");
 const navBtnInstall = document.getElementById("nav-install-btn");
 
+/* Function to check if the PWA is already installed */
+function checkIfInstalled() {
+  if (window.matchMedia("(display-mode: standalone)").matches) {
+    btnInstall.style.display = "none";
+    navBtnInstall.style.display = "none";
+  }
+}
+
+/* Call the check function on load */
+window.addEventListener("load", () => {
+  checkIfInstalled();
+});
+
 /* Here we need to provide the logic for when and how to install the PWA.  */
 
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   window.deferredPrompt = event;
-  btnInstall.classList.remove("hidden");
-  navBtnInstall.classList.remove("hidden");
 });
 
 // This listener fires when the user clicks the "install" button.
@@ -15,6 +26,8 @@ btnInstall.addEventListener("click", async () => {
   const promptEvent = window.deferredPrompt;
 
   if (!promptEvent) {
+    btnInstall.style.display = "none";
+    navBtnInstall.style.display = "none";
     console.log("No install prompt available.");
     return;
   }
@@ -33,13 +46,13 @@ btnInstall.addEventListener("click", async () => {
   window.deferredPrompt = null;
 
   // Hide the install button
-  btnInstall.classList.add("hidden");
-  navBtnInstall.classList.add("hidden");
+  btnInstall.style.display = "none";
+  navBtnInstall.style.display = "none";
 });
 
 window.addEventListener("appinstalled", (event) => {
   console.log("PWA was installed.");
   window.deferredPrompt = null;
-  btnInstall.classList.add("hidden");
-  navBtnInstall.classList.add("hidden");
+  btnInstall.style.display = "none";
+  navBtnInstall.style.display = "none";
 });
