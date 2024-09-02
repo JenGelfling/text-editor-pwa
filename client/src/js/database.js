@@ -20,13 +20,13 @@ const initdb = async () =>
 */
 export const putDb = async (content) => {
   // Open the database
-  const noteDb = await openDB(DB_NAME, 1);
+  const db = await openDB(DB_NAME, 1);
 
   // Create a transaction
-  const noteTx = noteDb.transaction(DB_NAME, "readwrite");
+  const tx = db.transaction(DB_NAME, "readwrite");
 
   // Get the object store
-  const store = noteTx.objectStore(DB_NAME);
+  const store = tx.objectStore(DB_NAME);
 
   // Put the content into the object store
   const request = store.put({ id: 1, value: content });
@@ -38,9 +38,9 @@ export const putDb = async (content) => {
   We need to add some code below which will get all content from IndexedDB.
 */
 export const getDb = async () => {
-  const noteDb = await openDB(DB_NAME, 1);
-  const noteTx = noteDb.transaction(DB_NAME, "readonly");
-  const store = noteTx.objectStore(DB_NAME);
+  const db = await openDB(DB_NAME, 1);
+  const tx = db.transaction(DB_NAME, "readonly");
+  const store = tx.objectStore(DB_NAME, 1);
 
   const request = store.get(1);
   const result = await request;
